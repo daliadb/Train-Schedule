@@ -6,14 +6,17 @@
 
 	<!-- RESET -->
 	<link rel="stylesheet" type="text/css" href="assets/reset.css">
-	<!-- CSS -->
-	<link rel="stylesheet" type="text/css" href="assets/style.css">
-	<!-- LINK TO FIREBASE GOES HERE -->
-    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
-	<!-- Added Moment JS -->
-	<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
-
-	<!--Add Materlize Here-->
+	<!-- FIREBASE -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script> -->
+	<!-- Moment JS -->
+	<!-- <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script> -->
+	<!-- Materalize CSS CDN -->
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+  	<!-- Materalize JavaScript CDN -->
+  	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script> -->
+  	<!-- Icons -->
+  	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  	
 
 </head>
 <body>
@@ -21,15 +24,22 @@
 	<!-- Train Schedule -->
     <div class="container">
 		
-		<!--Header-->
-		<div class="">
-			<h1 class="text-center">Train Schedule</h1>
-			<h3 class="text-center">Know When You're Coming and Going</h3>
+		<!-- Main Header-->
+		<div class="row">
+		  <div class="col s12">
+		    <div class="card teal lighten-1">
+		    	<div class="card-content white-text">
+	              <span class="card-title">
+				   <h1 class="center-align">Train Schedule</h1>
+				   <h5 class="center-align">Know When You're Coming and Going</h5>
+				  </span>
+				</div>
+			</div>
+		  </div>
 		</div>
 
 		<div class="row">
-
-        	<div class="col-lg-12">
+        	<div class="tScheduleBody col s12">
 
         	<!--Current Train Schedule-->
 	          <div class="panel panel-primary">
@@ -37,7 +47,7 @@
 	              <h3 class="panel-title"><strong>Current Train Schedule</strong></h3>
 	            </div>
 	            <div class="panel-body">
-	              <table class="table table-hover" id='train-table'>
+	              <table class="striped" id='train-table'>
 	                <thead>
 	                  <tr>
 	                    <th>Train Name</th>
@@ -52,33 +62,42 @@
 	              </table>
 	            </div>
 	          </div>
-			
+
+		<br>
+		<br>
+		<br>
+
 			<!-- Add Train -->
 	          <div class="panel panel-primary">
 	            <div class="panel-heading">
 	              <h3 class="panel-title"><strong>Add Train</strong></h3>
 	            </div>
-	            <div class="panel-body">
 
 	            <!-- Entry Form -->
-	              <form>
-	                <div class="form-group">
-	                  <label for="train-name-input">Train Name</label>
-	                  <input class="form-control" id="train-name-input" type="text">
+	            <div class ="row">
+	              <form class="col s12">
+	                <div class="row">
+	                  <div class="input-field col s6">
+	                    <input class="validate" id="train-name-input" type="text">
+	                    <label for="train-name-input">Train Name</label>
+	                  </div>
+	                  <div class="input-field col s6">
+	                    <input class="validate" id="place-input" type="text">
+	                    <label for="place-input">Destination</label>
+	                  </div>
 	                </div>
-	                <div class="form-group">
-	                  <label for="place-input">Destination</label>
-	                  <input class="form-control" id="place-input" type="text">
+	                <div class="row">
+	                  <div class="input-field col s6">
+	                  	<input class="validate" id="start-input" type="text">
+	                  	<label for="start-input">First Train Time (HH:mm - military time)</label>	          
+	                  </div>
+	                  <div class="input-field col s6">
+	                    <input class="form-control" id="frequency-input" type="text">
+	                    <label for="frequency-input">Frequency (min)</label>
+	                  </div>
 	                </div>
-	                <div class="form-group">
-	                  <label for="start-input">First Train Time (HH:mm - military time)</label>
-	                  <input class="form-control" id="start-input" type="text">
-	                </div>
-	                <div class="form-group">
-	                  <label for="frequency-input">Frequency (min)</label>
-	                  <input class="form-control" id="frequency-input" type="text">
-	                </div>
-	                <button class="btn btn-primary" id="add-train-btn" type="submit">Submit</button>
+	                <button class="btn waves-effect waves-light" id="add-train-btn" type="submit" name="action">Submit <i class="material-icons right">send</i>
+	                </button>
 	              </form>
 
 	            </div>
@@ -91,8 +110,15 @@
 
 	</div>
 
-	<!-- JQUERY -->
+	<!-- JavaScript -->
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<!-- FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+	<!-- Moment JS -->
+	<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+	<!-- Materalize JavaScript CDN -->
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  	<!-- Personal Link File -->
 	<script src ="assets/train.js"></script>
 
 </body>

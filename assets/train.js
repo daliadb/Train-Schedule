@@ -19,64 +19,75 @@
 	  	event.preventDefault();
 
 	  	// Grabs user input
-		var empName = $("#train-name-input").val().trim();
-		var empPlace = $("#place-input").val().trim();
-		var empStart = moment($("#start-input").val().trim(), "HH:mm").format("HH:mm");
-		var empFrequency = $("#frequency-input").val().trim();
+		var tName = $("#train-name-input").val().trim();
+		var tPlace = $("#place-input").val().trim();
+		var tStart = moment($("#start-input").val().trim(), 'hh:mm').format('HH:mm');
+		var tFrequency = moment($("#frequency-input").val().trim(), 'mm').format("minutes");
 
 		// Create local temp object for train data
-		var newEmp = {
-		  name: empName,
-		  place: empPlace,
-		  start: empStart,
-		  frequency: empFrequency
+		var newT = {
+		  name: tName,
+		  place: tPlace,
+		  start: tStart,
+		  frequency: tFrequency
 		};
 
 		// Upload this info to Firebase & console log it
-		database.ref().push(newEmp);
-		console.log(newEmp.name);
-		console.log(newEmp.place);
-		console.log(newEmp.start);
-		console.log(newEmp.frequency);
+		database.ref().push(newT);
+		console.log(newT.name);
+		console.log(newT.place);
+		console.log(newT.start);
+		console.log(newT.frequency);
 
 		// Clear input boxes
 		  $("#train-name-input").val("");
 		  $("#place-input").val("");
 		  $("#start-input").val("");
 		  $("#frequency-input").val("");
-	  });		
+	  });
 
+	// Firebase Event/HTML Row Addition for Added Trains
+	  database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+	  console.log(childSnapshot.val());
 
-// Time Predictions Code
-	// EDIT tFrequency & firstTime TO CORRECT #s
-	// Use locale time: moment().format('LT'); 
+		// Create variables & console log it
+		var tName = childSnapshot.val().name;
+		var tPlace = childSnapshot.val().place;
+		var tStart = childSnapshot.val().start;
+		var tFrequency = childSnapshot.val().frequency;	
 
-	// Assumptions
-    var tFrequency = 3;
+		console.log(tName);
+  		console.log(tPlace);
+  		console.log(tStart);
+  		console.log(tFrequency);
 
-    // Time is 3:30 AM
-    var firstTime = "03:30";
+  		// Calculate Train Time Info
 
-    // First Time (pushed back 1 year to make sure it comes before current time)
-    var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
-    console.log(firstTimeConverted);
+	      // Start
+	      var startConverted = moment(tStart, "HH:mm").subtract(1, "years");
+	      console.log(startConverted);
 
-    // Current Time
-    var currentTime = moment();
-    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+	      // Current Time
+	      var currentTime = moment();
+	      console.log("CURRENT TIME: " + moment(currentTime).format("HH:mm"));
+	      
+	      // Difference
+	      var diffTime = moment().diff(moment(startConverted), "minutes");
+	      console.log("DIFFERENCE IN TIME: " + diffTime);
 
-    // Difference between the times
-    var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-    console.log("DIFFERENCE IN TIME: " + diffTime);
+	      // Time apart (remainder)
+	      var tRemainder = diffTime % tFrequency;
+	      console.log(tRemainder);
 
-    // Time apart (remainder)
-    var tRemainder = diffTime % tFrequency;
-    console.log(tRemainder);
+	      // Minutes Until Train
+	      var tMinutesTillTrain = tFrequency - tRemainder;
+	      console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
 
-    // Minute Until Train
-    var tMinutesTillTrain = tFrequency - tRemainder;
-    console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+	      // Arrival Time
+	      var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+	      console.log("ARRIVAL TIME: " + moment(nextTrain).format("HH:mm"));
 
-    // Next Train
-    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+	    // Add each train's data into the table
+		$("#train-table > tbody").append("<tr><td>" + tName + "</td><td>" + tPlace + "</td><td>" +
+		tFrequency + "</td><td>" + nextTrain + "</td><td>" + tMinutesTillTrain + "</td><td>");
+	  });
